@@ -13,13 +13,52 @@ This project demonstrates a complete end-to-end system for algorithmic trading s
 - **Interactive Dashboard**: React-based web interface with real-time updates
 - **Comprehensive Monitoring**: Health checks, logging, and performance metrics
 
+## 📸 Screenshots
+
+### Dashboard Views
+
+![Main Dashboard](../../Screenshots/Dashboard.png)
+
+![Dashboard View 2](../../Screenshots/Dashboard2.png)
+
+![Dashboard Settings](../../Screenshots/Dashboard-Settings.png)
+
+![Alpaca Paper Trade Dashboard](../../Screenshots/alpaca_paper_trade_dashboard.png)
+
+### Deployment & Testing
+
+![Docker Deployment](../../Screenshots/WGUCapstone/Docker.png)
+
+![Docker Details](../../Screenshots/WGUCapstone/Docker%20Details.png)
+
+![API Test 1](../../Screenshots/WGUCapstone/Task2.2%20API%20Tests/Screenshot%202025-10-31%20131446.png)
+
+![API Test 2](../../Screenshots/WGUCapstone/Task2.2%20API%20Tests/Screenshot%202025-10-31%20131546.png)
+
+![System Screenshot](../../Screenshots/Screenshot%202025-11-02%20160425.png)
+
+> **View all screenshots**: [Complete Screenshots Gallery](../../Screenshots/README.md)
+
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend      │    │   Backend API    │    │   Data Layer    │
 │   (React)       │◄──►│   (Flask)        │◄──►│   (SQLite)      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+│   Dashboard     │    │   Monitoring     │    │   - Trades      │
+│   Real-time UI  │    │   & Queries      │    │   - Portfolio   │
+└─────────────────┘    └─────────────────┘    │   - Indicators  │
+                                ▲               └─────────────────┘
+                                │                       ▲
+                                │                       │
+                       ┌─────────────────┐             │
+                       │  Continuous     │             │
+                       │  Trading        │─────────────┘
+                       │  Service (24/7) │
+                       │  - Data Fetch   │
+                       │  - Signal Gen   │
+                       │  - Trade Exec   │
+                       └────────┬────────┘
                                 │
                                 ▼
                        ┌─────────────────┐
@@ -27,8 +66,12 @@ This project demonstrates a complete end-to-end system for algorithmic trading s
                        │ - Indicators    │
                        │ - Portfolio     │
                        │ - Risk Mgmt     │
+                       │ - Decision      │
+                       │   Support       │
                        │ - ML Models     │
-                       └─────────────────┘
+                       │   (RF/XGB/LGBM) │
+                       │ - PPO RL Agent  │
+                       └────────┬────────┘
                                 │
                                 ▼
                        ┌─────────────────┐
@@ -37,6 +80,26 @@ This project demonstrates a complete end-to-end system for algorithmic trading s
                        │ - CCXT Library   │
                        └─────────────────┘
 ```
+
+**Key Components:**
+
+- **Frontend (React)**: Real-time dashboard with live updates via Server-Sent Events
+- **Backend API (Flask)**: REST API for monitoring, querying trades, portfolio status, and metrics
+- **Continuous Trading Service**: Independent 24/7 service that runs the trading loop
+  - Fetches market data
+  - Calculates technical indicators
+  - Generates trading signals (MA Crossover, Multi-Indicator, Decision Support, or PPO RL)
+  - Executes trades via external APIs
+  - Logs all activity to database
+- **Trading Engine**: Core trading logic
+  - **Technical Indicators**: 26 indicators (RSI, MACD, Bollinger Bands, etc.)
+  - **Portfolio Management**: Position tracking, P&L calculation
+  - **Risk Management**: Position sizing, stop-loss, trailing stops
+  - **Decision Support System**: Combines ML predictions with technical analysis
+  - **ML Models**: Random Forest, XGBoost, LightGBM for price prediction
+  - **PPO RL Agent**: Reinforcement learning agent for adaptive trading decisions
+- **Data Layer (SQLite)**: Stores trades, portfolio snapshots, indicators, and metrics
+- **External APIs**: Alpaca Markets (paper trading) and CCXT (exchange connectivity)
 
 ## 🚀 Quick Start
 
