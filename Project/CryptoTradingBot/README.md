@@ -92,12 +92,21 @@ This project demonstrates a complete end-to-end system for algorithmic trading s
   - Executes trades via external APIs
   - Logs all activity to database
 - **Trading Engine**: Core trading logic
-  - **Technical Indicators**: 26 indicators (RSI, MACD, Bollinger Bands, etc.)
+  - **Technical Indicators**: 26 indicators (SMA, EMA, RSI, MACD, Bollinger Bands, etc.)
+  - **Feature Engineering Pipeline**: 170+ engineered features for ML/RL
+    - Price features (47): momentum, volatility, gaps, intraday patterns
+    - Volume features (24): volume patterns, volume-price relationships
+    - Technical features (29): derived from technical indicators
+    - Time features (18): market sessions, day-of-week, hour patterns
+    - Lag features (12): historical price patterns
+    - Interaction features (6): combined indicator relationships
   - **Portfolio Management**: Position tracking, P&L calculation
   - **Risk Management**: Position sizing, stop-loss, trailing stops
   - **Decision Support System**: Combines ML predictions with technical analysis
-  - **ML Models**: Random Forest, XGBoost, LightGBM for price prediction
-  - **PPO RL Agent**: Reinforcement learning agent for adaptive trading decisions
+  - **ML Models**: Random Forest, XGBoost, LightGBM for price prediction (uses 170+ features)
+  - **PPO RL Agent**: Reinforcement learning agent with comprehensive feature pipeline
+    - State space includes: 26 technical indicators + ML predictions + portfolio status + price features
+    - Adaptive feature selection and normalization
 - **Data Layer (SQLite)**: Stores trades, portfolio snapshots, indicators, and metrics
 - **External APIs**: Alpaca Markets (paper trading) and CCXT (exchange connectivity)
 
@@ -247,6 +256,17 @@ See [PPO Quick Start Guide](docs/ml/PPO_QUICK_START.md) for:
 - PPO agent training
 - Hybrid trading system deployment
 - Reinforcement learning configuration
+
+### Feature Engineering
+
+See [Feature Engineering Documentation](docs/ml/FEATURE_ENGINEERING.md) for:
+- Complete breakdown of **170+ engineered features**
+- Price features (47): momentum, volatility, gaps, intraday patterns
+- Volume features (24): volume patterns and relationships
+- Technical features (29): derived from technical indicators
+- Time features (18): market sessions, temporal patterns
+- Lag features (12): historical price patterns
+- Interaction features (6): combined indicator relationships
 
 ## 📊 Features
 

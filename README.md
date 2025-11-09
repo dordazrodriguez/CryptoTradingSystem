@@ -7,8 +7,9 @@ A comprehensive cryptocurrency trading bot simulator that implements both descri
 This repository contains a complete end-to-end algorithmic trading system featuring:
 
 - **Real-time Data Processing**: Live cryptocurrency price feeds via Alpaca API and CCXT
-- **Technical Analysis**: RSI, MACD, Bollinger Bands, Moving Averages
-- **Machine Learning**: Random Forest and XGBoost models for price prediction
+- **Technical Analysis**: 26 indicators (SMA, EMA, RSI, MACD, Bollinger Bands, etc.)
+- **Feature Engineering**: 170+ engineered features for ML/RL models
+- **Machine Learning**: Random Forest, XGBoost, and LightGBM models for price prediction
 - **Reinforcement Learning**: PPO (Proximal Policy Optimization) agent for adaptive trading
 - **Risk Management**: Stop-loss, position sizing, portfolio limits
 - **Interactive Dashboard**: React-based web interface with real-time updates
@@ -200,7 +201,10 @@ Located in `Project/CryptoTradingBot/docs/deployment/`:
 Located in `Project/CryptoTradingBot/docs/ml/`:
 
 - **[PPO Quick Start](Project/CryptoTradingBot/docs/ml/PPO_QUICK_START.md)** - Reinforcement learning guide
-- Feature engineering and model evaluation guides
+- **[Feature Engineering](Project/CryptoTradingBot/docs/ml/FEATURE_ENGINEERING.md)** - Complete breakdown of **170+ engineered features**
+  - Price features (47), Volume features (24), Technical features (29)
+  - Time features (18), Lag features (12), Interaction features (6)
+- Model evaluation and performance analysis guides
 
 ### Capstone Documentation
 
@@ -233,7 +237,7 @@ Located in `Task2/`:
 ✅ **Prescriptive Method**: Random Forest and XGBoost ML models for trading signals  
 ✅ **Data Collection**: Live cryptocurrency data via Alpaca API and CCXT  
 ✅ **Decision Support**: Real-time trade recommendations with confidence scores  
-✅ **Data Wrangling**: Comprehensive cleaning, validation, and feature engineering  
+✅ **Data Wrangling**: Comprehensive cleaning, validation, and **170+ engineered features** for ML/RL  
 ✅ **Data Exploration**: Jupyter notebooks with statistical analysis  
 ✅ **Data Visualization**: Interactive charts and dashboards  
 ✅ **Interactive Queries**: REST API with filtering and search capabilities  
@@ -245,7 +249,14 @@ Located in `Task2/`:
 
 ### Advanced Features
 
-- **PPO Reinforcement Learning**: Adaptive trading agent that learns from market conditions
+- **Comprehensive Feature Engineering**: **170+ engineered features** for ML/RL models
+  - Price features (47): momentum, volatility, gaps, intraday patterns
+  - Volume features (24): volume patterns and relationships
+  - Technical features (29): derived from technical indicators
+  - Time features (18): market sessions, temporal patterns
+  - Lag features (12): historical price patterns
+  - Interaction features (6): combined indicator relationships
+- **PPO Reinforcement Learning**: Adaptive trading agent with comprehensive feature pipeline
 - **Hybrid Trading System**: Combines ML predictions with RL agent decisions
 - **24/7 Continuous Trading**: Automated service with automatic model retraining
 - **Prefect Workflow Orchestration**: Enterprise-grade workflow management
