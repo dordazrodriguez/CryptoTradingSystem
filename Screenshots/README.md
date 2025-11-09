@@ -23,6 +23,9 @@ This directory contains screenshots of the Crypto Trading Bot application, inclu
 
 ![Dashboard Trades 3](Dashboard3-Trades.png)
 
+### Alpaca Paper Trade Dashboard
+![Alpaca Paper Trade Dashboard](alpaca_paper_trade_dashboard.png)
+
 ## Performance & Validation Metrics
 
 ### Performance Indicators
@@ -79,6 +82,7 @@ This directory contains screenshots of the Crypto Trading Bot application, inclu
 
 ### Root Level Screenshots
 - `1.png` - General screenshot
+- `alpaca_paper_trade_dashboard.png` - Alpaca paper trading dashboard view
 - `bugfix_rsi_nan.png` - RSI NaN bug fix visualization
 - `Dashboard-Analytics.png` - Analytics dashboard view
 - `Dashboard-Settings.png` - Settings dashboard view
