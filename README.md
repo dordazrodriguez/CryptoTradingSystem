@@ -15,6 +15,32 @@ This repository contains a complete end-to-end algorithmic trading system featur
 - **24/7 Continuous Trading**: Automated trading service with model retraining
 - **Comprehensive Monitoring**: Health checks, logging, and performance metrics
 
+## 📸 Screenshots
+
+### Dashboard Views
+
+![Main Dashboard](Screenshots/Dashboard.png)
+
+![Dashboard View 2](Screenshots/Dashboard2.png)
+
+![Dashboard Settings](Screenshots/Dashboard-Settings.png)
+
+![Alpaca Paper Trade Dashboard](Screenshots/alpaca_paper_trade_dashboard.png)
+
+### Deployment & Testing
+
+![Docker Deployment](Screenshots/WGUCapstone/Docker.png)
+
+![Docker Details](Screenshots/WGUCapstone/Docker%20Details.png)
+
+![API Test 1](Screenshots/WGUCapstone/Task2.2%20API%20Tests/Screenshot%202025-10-31%20131446.png)
+
+![API Test 2](Screenshots/WGUCapstone/Task2.2%20API%20Tests/Screenshot%202025-10-31%20131546.png)
+
+![System Screenshot](Screenshots/Screenshot%202025-11-02%20160425.png)
+
+> **View all screenshots**: [Complete Screenshots Gallery](Screenshots/README.md)
+
 ## 📁 Repository Structure
 
 ```
