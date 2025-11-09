@@ -1,0 +1,28 @@
+[Unit]
+Description=CryptoTradingBot Continuous Trading Service
+After=network.target
+
+[Service]
+Type=simple
+User=crypto-trader
+WorkingDirectory=/opt/crypto-trading-bot
+Environment="PATH=/opt/crypto-trading-bot/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONPATH=/opt/crypto-trading-bot"
+Environment="ALPACA_API_KEY=%i"
+Environment="ALPACA_SECRET_KEY=%i"
+ExecStart=/opt/crypto-trading-bot/venv/bin/python /opt/crypto-trading-bot/main.py --mode run --symbol BTC/USDT --provider alpaca --interval 60 --enable-ml
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=crypto-trading-bot
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/crypto-trading-bot/data /opt/crypto-trading-bot/logs
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,144 @@
+name: crypto-trading-bot
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: ..
+      dockerfile: deployment/docker/backend.Dockerfile
+    container_name: crypto-trading-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - TZ=America/Chicago
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+      - ALPACA_API_KEY=${ALPACA_API_KEY}
+      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-secret-key}
+      - API_KEY=${API_KEY:-dev-api-key}
+    volumes:
+      - ../data:/app/data
+      - ../logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health').read()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - crypto-trading-network
+
+  # Frontend React App
+  frontend:
+    build:
+      context: ..
+      dockerfile: deployment/docker/frontend.Dockerfile
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:5000}
+        REACT_APP_ALPACA_API_KEY: ${ALPACA_API_KEY}
+        REACT_APP_ALPACA_SECRET_KEY: ${ALPACA_SECRET_KEY}
+        REACT_APP_PAPER_TRADING: ${PAPER_TRADING:-true}
+    container_name: crypto-trading-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=America/Chicago
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - crypto-trading-network
+
+  # Continuous trading loop (auto-executes strategy)
+  trader:
+    build:
+      context: ..
+      dockerfile: deployment/docker/backend.Dockerfile
+    container_name: crypto-trading-trader
+    depends_on:
+      - backend
+    environment:
+      - TZ=America/Chicago
+      - PYTHONPATH=/app
+      - ALPACA_API_KEY=${ALPACA_API_KEY}
+      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}
+      - USE_ALPACA_EXECUTOR=${USE_ALPACA_EXECUTOR:-false}
+      - RSI_BUY=${RSI_BUY:-55}
+      - RSI_SELL=${RSI_SELL:-45}
+      - RISK_PER_TRADE=${RISK_PER_TRADE:-0.005}
+      - ATR_STOP_K=${ATR_STOP_K:-2.0}
+      - ATR_TRAIL_K=${ATR_TRAIL_K:-2.5}
+      - COOLDOWN_SEC=${COOLDOWN_SEC:-30}
+      - TRADING_STRATEGY=${TRADING_STRATEGY:-ma_crossover}
+      - PROTECT_PROFITS=${PROTECT_PROFITS:-true}
+      - MIN_PROFIT_TARGET=${MIN_PROFIT_TARGET:-0.002}
+      # ML Configuration
+      - ENABLE_ML=${ENABLE_ML:-false}
+      - ENABLE_AUTO_RETRAINING=${ENABLE_AUTO_RETRAINING:-false}
+      - ML_MODEL_PATH=${ML_MODEL_PATH:-ml_models/trained_model.pkl}
+      - RETRAIN_INTERVAL_DAYS=${RETRAIN_INTERVAL_DAYS:-7}
+      - MIN_ACCURACY_THRESHOLD=${MIN_ACCURACY_THRESHOLD:-0.48}
+      - RETRAINING_CHECK_HOURS=${RETRAINING_CHECK_HOURS:-24}
+    volumes:
+      - ../data:/app/data
+      - ../logs:/app/logs
+      - ../ml_models:/app/ml_models
+    command: ["sh", "/app/deployment/docker/entrypoint.sh"]
+    restart: unless-stopped
+    # Healthcheck: verify main.py Python process is running using Python-only (no extra deps)
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os; has_main = any('main.py' in open(f'/proc/{pid}/cmdline', 'rb').read().decode(errors='ignore') for pid in os.listdir('/proc') if pid.isdigit()); exit(0 if has_main else 1)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - crypto-trading-network
+
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: crypto-trading-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    networks:
+      - crypto-trading-network
+
+  # Redis for caching (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: crypto-trading-redis
+    ports:
+      - "6379:6379"
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - crypto-trading-network
+
+volumes:
+  redis_data:
+
+networks:
+  crypto-trading-network:
+    driver: bridge

@@ -1,0 +1,106 @@
+# Environment and secrets
+.env
+.env.local
+.env.production
+.env.*.local
+*.key
+*.pem
+*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+.venv
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/db/*.db
+data/db/*.sqlite
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+*.log.*
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+
+# ML Models
+# ml_models/*.pkl
+ml_models/*.joblib
+*.h5
+*.hdf5
+*.model
+
+# Backups
+backups/
+*.backup
+*.bak
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+
+# Deployment
+
+# OS
+Thumbs.db
+.DS_Store
+*.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Data files (optional - uncomment if you want to exclude data)
+# data/*
+# !data/.gitkeep
+
+# Keep empty directories
+!data/db/.gitkeep
+!logs/.gitkeep
+!backups/.gitkeep

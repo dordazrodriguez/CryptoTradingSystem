@@ -1,0 +1,89 @@
+# CryptoTradingBot Configuration File
+# This file contains settings for PPO/RL trading strategy
+# Environment variables will override these values if set
+
+# Trading Configuration
+trading:
+  symbol: BTC/USD
+  timeframe: 1m
+  starting_cash: 10000.0
+  provider: alpaca  # Options: alpaca, ccxt
+  interval: 60  # Update interval in seconds
+  
+# Risk Management
+risk:
+  max_position_size: 0.01  # 1% of equity per trade
+  stop_loss_pct: 0.05  # 5% stop loss
+  
+# PPO/RL Agent Configuration
+ppo:
+  # Hyperparameters
+  gamma: 0.99  # Discount factor for future rewards
+  clip_epsilon: 0.2  # PPO clipping parameter
+  learning_rate: 3e-4  # Learning rate for optimizer
+  update_epochs: 10  # Number of epochs per update
+  batch_size: 64  # Batch size for training
+  update_interval: 100  # Steps between policy updates
+  value_coef: 0.5  # Value function loss coefficient
+  entropy_coef: 0.01  # Entropy bonus coefficient (exploration)
+  
+  # Advanced features
+  use_gae: true  # Use Generalized Advantage Estimation
+  gae_lambda: 0.95  # GAE lambda (0.0 = TD, 1.0 = Monte Carlo)
+  value_clipping: true  # Clip value updates for stability
+  max_grad_norm: 10.0  # Maximum gradient norm before clipping
+  
+  # Network architecture
+  action_mode: discrete  # Options: discrete (Buy/Hold/Sell), continuous
+  network:
+    hidden_layers: 2  # Number of hidden layers
+    hidden_size: 128  # Neurons per hidden layer
+    activation: relu  # Activation function (relu, tanh)
+  
+# Reward Function Configuration
+reward:
+  transaction_cost_pct: 0.001  # 0.1% transaction cost penalty
+  volatility_penalty: false  # Enable volatility-based penalty
+  volatility_coef: 0.1  # Volatility penalty coefficient if enabled
+
+# Feature Engineering
+features:
+  lookback_window: 100  # Number of historical candles for features
+  normalization_method: z-score  # Options: z-score, minmax
+  
+# ML Model Configuration
+ml:
+  enable_ml: true  # Enable ML predictions
+  model_path: ml_models/trained_model.pkl
+  enable_auto_retraining: false
+  retrain_interval_days: 7
+  min_accuracy_threshold: 0.48
+
+# Experience Storage (for persistent memory across restarts)
+experience_storage:
+  enabled: false  # Enable persistent experience storage
+  storage_dir: data/experiences  # Directory to store experiences
+  save_interval: 1000  # Steps between experience saves
+  load_on_startup: true  # Load historical experiences on startup
+  max_experiences_to_load: 50000  # Maximum experiences to load from disk
+
+# Checkpoint Management
+checkpoints:
+  save_dir: models  # Directory for PPO model checkpoints
+  save_interval: 100  # Steps between checkpoint saves (overrides update_interval if set)
+  keep_last_n: 5  # Number of recent checkpoints to keep
+
+# Logging Configuration
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR
+  log_dir: logs  # Directory for log files
+  log_trades: true  # Log trades to separate file
+  log_training: true  # Log training metrics to separate file
+  log_errors: true  # Log errors to separate file
+  verbose_ppo: true  # Show detailed PPO decision information
+  
+# Strategy Selection
+# Set via environment variable TRADING_STRATEGY or config
+# Options: ma_crossover, multi_indicator, decision_support, ppo_rl
+strategy: ppo_rl
+
