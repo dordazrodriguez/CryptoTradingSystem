@@ -16,6 +16,35 @@ This repository contains a complete end-to-end algorithmic trading system featur
 - **24/7 Continuous Trading**: Automated trading service with model retraining
 - **Comprehensive Monitoring**: Health checks, logging, and performance metrics
 
+**Key Components:**
+
+- **Frontend (React)**: Real-time dashboard with live updates via Server-Sent Events
+- **Backend API (Flask)**: REST API for monitoring, querying trades, portfolio status, and metrics
+- **Continuous Trading Service**: Independent 24/7 service that runs the trading loop
+  - Fetches market data
+  - Calculates technical indicators
+  - Generates trading signals (MA Crossover, Multi-Indicator, Decision Support, or PPO RL)
+  - Executes trades via external APIs
+  - Logs all activity to database
+- **Trading Engine**: Core trading logic
+  - **Technical Indicators**: 26 indicators (SMA, EMA, RSI, MACD, Bollinger Bands, etc.)
+  - **Feature Engineering Pipeline**: 170+ engineered features for ML/RL
+    - Price features (47): momentum, volatility, gaps, intraday patterns
+    - Volume features (24): volume patterns, volume-price relationships
+    - Technical features (29): derived from technical indicators
+    - Time features (18): market sessions, day-of-week, hour patterns
+    - Lag features (12): historical price patterns
+    - Interaction features (6): combined indicator relationships
+  - **Portfolio Management**: Position tracking, P&L calculation
+  - **Risk Management**: Position sizing, stop-loss, trailing stops
+  - **Decision Support System**: Combines ML predictions with technical analysis
+  - **ML Models**: Random Forest, XGBoost, LightGBM for price prediction (uses 170+ features)
+  - **PPO RL Agent**: Reinforcement learning agent with comprehensive feature pipeline
+    - State space includes: 26 technical indicators + ML predictions + portfolio status + price features
+    - Adaptive feature selection and normalization
+- **Data Layer (SQLite)**: Stores trades, portfolio snapshots, indicators, and metrics
+- **External APIs**: Alpaca Markets (paper trading) and CCXT (exchange connectivity)
+
 ## 📸 Screenshots
 
 ### Dashboard Views
